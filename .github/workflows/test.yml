@@ -10,17 +10,27 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    name: PHP ${{ matrix.php }} (${{ matrix.os }})
+    name: PHP/${{ matrix.php }} (Laravel/${{ matrix.laravel }}; ${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-        php:
-          - "8.1"
-          - "8.2"
-          - "8.3"
+        include:
+          - { php: "8.1", laravel: "^8.12.0", os: "ubuntu-latest" }
+          - { php: "8.1", laravel: "^8.12.0", os: "windows-latest" }
+          - { php: "8.1", laravel: "9.*", os: "ubuntu-latest" }
+          - { php: "8.1", laravel: "9.*", os: "windows-latest" }
+          - { php: "8.2", laravel: "9.*", os: "ubuntu-latest" }
+          - { php: "8.2", laravel: "9.*", os: "windows-latest" }
+          - { php: "8.1", laravel: "10.*", os: "ubuntu-latest" }
+          - { php: "8.1", laravel: "10.*", os: "windows-latest" }
+          - { php: "8.2", laravel: "10.*", os: "ubuntu-latest" }
+          - { php: "8.2", laravel: "10.*", os: "windows-latest" }
+          - { php: "8.3", laravel: "10.*", os: "ubuntu-latest" }
+          - { php: "8.3", laravel: "10.*", os: "windows-latest" }
+          - { php: "8.2", laravel: "11.*", os: "ubuntu-latest" }
+          - { php: "8.2", laravel: "11.*", os: "windows-latest" }
+          - { php: "8.3", laravel: "11.*", os: "ubuntu-latest" }
+          - { php: "8.3", laravel: "11.*", os: "windows-latest" }
 
     steps:
       - uses: actions/checkout@v4
@@ -29,12 +39,17 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          coverage: none
+          extensions: fileinfo
 
       - name: Validate composer.json and composer.lock
         run: composer validate
 
+      - name: Require Laravel
+        run: composer require "laravel/framework:${{ matrix.laravel }}" --no-update
+
       - name: Install dependencies
-        run: composer install
+        run: composer update --prefer-dist --no-progress --no-interaction
 
       - name: Run tests
         run: composer test
