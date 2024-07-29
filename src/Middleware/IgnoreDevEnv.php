@@ -10,7 +10,7 @@ class IgnoreDevEnv extends BaseMiddleware
 {
   private string $environment;
 
-  public function __construct($environment)
+  public function __construct(string $environment)
   {
     $this->environment = $environment;
   }

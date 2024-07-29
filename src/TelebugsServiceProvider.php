@@ -13,9 +13,10 @@ use Telebugs\TelebugsLaravel\Middleware\IgnoreDevEnv;
 
 class TelebugsServiceProvider extends ServiceProvider
 {
-  public function boot()
+  public function boot(): void
   {
     $this->publishes([
+      // @phpstan-ignore-next-line
       __DIR__ . '/../config/telebugs.php' => base_path('config/telebugs.php'),
     ], 'config');
   }
@@ -35,7 +36,12 @@ class TelebugsServiceProvider extends ServiceProvider
       return new Reporter();
     });
 
-    $this->mergeConfigFrom(realpath(__DIR__ . '/../config/telebugs.php'), 'telebugs');
+    $path = realpath(__DIR__ . '/../config/telebugs.php');
+    if ($path !== false) {
+      $this->mergeConfigFrom($path, 'telebugs');
+    } else {
+      throw new \RuntimeException('Could not load Telebugs configuration file');
+    }
     $this->app->alias(Reporter::class, 'telebugs');
   }
 }

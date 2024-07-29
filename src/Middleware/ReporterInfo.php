@@ -12,7 +12,7 @@ class ReporterInfo extends BaseMiddleware
 {
   private array $reporter;
 
-  public function __construct($laravelVersion)
+  public function __construct(string $laravelVersion)
   {
     $this->reporter = [
       'library' => ['name' => 'telebugs-laravel', 'version' => TelebugsLaravel::VERSION],
