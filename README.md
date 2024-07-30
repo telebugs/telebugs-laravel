@@ -1,5 +1,7 @@
 # Telebugs for Laravel
 
+[![Package Version](https://poser.pugx.org/telebugs/telebugs-laravel/v/stable)](https://packagist.org/packages/telebugs/telebugs-laravel)
+
 Simple error monitoring for developers. Monitor production errors in real-time
 and get them reported to Telegram with Telebugs.
 
