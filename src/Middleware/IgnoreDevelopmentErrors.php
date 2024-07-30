@@ -6,7 +6,7 @@ namespace Telebugs\TelebugsLaravel\Middleware;
 
 use Telebugs\BaseMiddleware;
 
-class IgnoreDevEnv extends BaseMiddleware
+class IgnoreDevelopmentErrors extends BaseMiddleware
 {
   private string $environment;
 

@@ -5,46 +5,46 @@ declare(strict_types=1);
 namespace Telebugs\TelebugsLaravel\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Telebugs\TelebugsLaravel\Middleware\IgnoreDevEnv;
+use Telebugs\TelebugsLaravel\Middleware\IgnoreDevelopmentErrors;
 use Telebugs\Report;
 
-class IgnoreDevEnvTest extends TestCase
+class IgnoreDevelopmentErrorsTest extends TestCase
 {
-  public function testIgnoreDevEnvIgnoresLocalEnvironment(): void
+  public function testIgnoreDevelopmentErrorsIgnoresLocalEnvironment(): void
   {
     $report = $this->createMock(Report::class);
 
-    $middleware = new IgnoreDevEnv("local");
+    $middleware = new IgnoreDevelopmentErrors("local");
     $middleware($report);
 
     $this->assertTrue($report->ignored);
   }
 
-  public function testIgnoreDevEnvIgnoresTestingEnvironment(): void
+  public function testIgnoreDevelopmentErrorsIgnoresTestingEnvironment(): void
   {
     $report = $this->createMock(Report::class);
 
-    $middleware = new IgnoreDevEnv("testing");
+    $middleware = new IgnoreDevelopmentErrors("testing");
     $middleware($report);
 
     $this->assertTrue($report->ignored);
   }
 
-  public function testIgnoreDevEnvDoesNotIgnoreProductionEnvironment(): void
+  public function testIgnoreDevelopmentErrorsDoesNotIgnoreProductionEnvironment(): void
   {
     $report = $this->createMock(Report::class);
 
-    $middleware = new IgnoreDevEnv("production");
+    $middleware = new IgnoreDevelopmentErrors("production");
     $middleware($report);
 
     $this->assertFalse($report->ignored);
   }
 
-  public function testIgnoreDevEnvDoesNotIgnoreStagingEnvironment(): void
+  public function testIgnoreDevelopmentErrorsDoesNotIgnoreStagingEnvironment(): void
   {
     $report = $this->createMock(Report::class);
 
-    $middleware = new IgnoreDevEnv("staging");
+    $middleware = new IgnoreDevelopmentErrors("staging");
     $middleware($report);
 
     $this->assertFalse($report->ignored);
@@ -52,7 +52,7 @@ class IgnoreDevEnvTest extends TestCase
 
   public function testWeight(): void
   {
-    $middleware = new IgnoreDevEnv("local");
+    $middleware = new IgnoreDevelopmentErrors("local");
 
     $this->assertSame(-1000, $middleware->getWeight());
   }

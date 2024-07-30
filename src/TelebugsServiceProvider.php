@@ -9,7 +9,7 @@ use Telebugs\Reporter;
 use function Telebugs\configure;
 
 use Telebugs\TelebugsLaravel\Middleware\ReporterInfo;
-use Telebugs\TelebugsLaravel\Middleware\IgnoreDevEnv;
+use Telebugs\TelebugsLaravel\Middleware\IgnoreDevelopmentErrors;
 
 class TelebugsServiceProvider extends ServiceProvider
 {
@@ -29,7 +29,7 @@ class TelebugsServiceProvider extends ServiceProvider
         $config->setApiKey($cfg['api_key']);
         $config->setRootDirectory($cfg['root_directory']);
         $config->middleware()->use(new ReporterInfo($app->version()));
-        $config->middleware()->use(new IgnoreDevEnv($app->environment()));
+        $config->middleware()->use(new IgnoreDevelopmentErrors($app->environment()));
       });
 
       return Reporter::getInstance();
