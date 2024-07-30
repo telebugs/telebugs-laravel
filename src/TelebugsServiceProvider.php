@@ -28,8 +28,9 @@ class TelebugsServiceProvider extends ServiceProvider
       configure(function ($config) use ($cfg, $app) {
         $config->setApiKey($cfg['api_key']);
         $config->setRootDirectory($cfg['root_directory']);
+        $config->setEnvironment($cfg['environment']);
+        $config->setIgnoreEnvironments($cfg['ignore_environments']);
         $config->middleware()->use(new ReporterInfo($app->version()));
-        $config->middleware()->use(new IgnoreDevelopmentErrors($app->environment()));
       });
 
       return Reporter::getInstance();
