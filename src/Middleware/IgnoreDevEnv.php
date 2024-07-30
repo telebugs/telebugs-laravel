@@ -17,6 +17,11 @@ class IgnoreDevEnv extends BaseMiddleware
 
   public function __invoke($report): void
   {
-    $report->ignored = !($this->environment === 'local' || $this->environment === 'testing');
+    $report->ignored = ($this->environment === 'local' || $this->environment === 'testing');
+  }
+
+  public function getWeight(): int
+  {
+    return -1000;
   }
 }

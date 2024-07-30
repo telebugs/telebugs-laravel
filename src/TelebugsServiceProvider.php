@@ -16,7 +16,6 @@ class TelebugsServiceProvider extends ServiceProvider
   public function boot(): void
   {
     $this->publishes([
-      // @phpstan-ignore-next-line
       __DIR__ . '/../config/telebugs.php' => base_path('config/telebugs.php'),
     ], 'config');
   }
@@ -33,7 +32,7 @@ class TelebugsServiceProvider extends ServiceProvider
         $config->middleware()->use(new IgnoreDevEnv($app->environment()));
       });
 
-      return new Reporter();
+      return Reporter::getInstance();
     });
 
     $path = realpath(__DIR__ . '/../config/telebugs.php');
